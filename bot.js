@@ -21,6 +21,17 @@ function registerCommands(bot) {
     });
 
     bot.action('back_to_catalog', handleBackToCatalog);
+
+    bot.on('message', async (ctx) => {
+        const allowedTexts = ['📂 Презентация', '📦 Каталог', '📞 Связь с нами'];
+        if (!allowedTexts.includes(ctx.message.text)) {
+            try {
+                await ctx.deleteMessage();
+            } catch (err) {
+                console.error('Ошибка удаления сообщения:', err.message);
+            }
+        }
+    });
 }
 
 registerCommands(bot);
