@@ -1,0 +1,29 @@
+{
+  "candles": {
+    "title": "🕯 Подсвечник",
+    "price": "250 ₽",
+    "size": "12 x 15 см",
+    "quantity": "40 шт",
+    "image": "./images/candlestick.png"
+  },
+  "chandelier": {
+    "title": "💡 Люстра",
+    "price": "12 000 ₽",
+    "size": "80 x 105 см",
+    "quantity": "7 шт",
+    "image": "./images/chandelier.png"
+  },
+  "stand": {
+    "title": "📏 Стойка",
+    "price": "5 000 ₽",
+    "size": "350 x 185 см",
+    "quantity": "7 шт",
+    "image": "./images/rack.png"
+  },
+  "combo": {
+    "title": "💡+ 📏 Комплект: люстра и стойка",
+    "price": "15 000 ₽",
+    "quantity": "7 шт",
+    "image": "./images/combo.png"
+  }
+}
