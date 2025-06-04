@@ -1,8 +1,8 @@
 require('dotenv').config();
 const { Telegraf } = require('telegraf');
 
-const { handleCatalog, handleProduct, handleBackToCatalog } = require('./handlers/catalog');
 const handleStart = require('./handlers/start');
+const { handleCatalog, handleProduct, handleBackToCatalog } = require('./handlers/catalog');
 const { handlePresentation } = require('./handlers/presentation');
 const { handleContact } = require('./handlers/contact');
 
@@ -11,8 +11,8 @@ const bot = new Telegraf(process.env.BOT_TOKEN);
 function registerCommands(bot) {
     bot.start(handleStart);
 
-    bot.hears('📂 Презентация', handlePresentation);
     bot.hears('📦 Каталог', handleCatalog);
+    bot.hears('📂 Презентация', handlePresentation);
     bot.hears('📞 Связь с нами', handleContact);
 
     const productActions = ['candles', 'chandelier', 'stand', 'combo'];
@@ -23,7 +23,7 @@ function registerCommands(bot) {
     bot.action('back_to_catalog', handleBackToCatalog);
 
     bot.on('message', async (ctx) => {
-        const allowedTexts = ['📂 Презентация', '📦 Каталог', '📞 Связь с нами'];
+        const allowedTexts = ['📦 Каталог', '📂 Презентация', '📞 Связь с нами'];
         if (!allowedTexts.includes(ctx.message.text)) {
             try {
                 await ctx.deleteMessage();

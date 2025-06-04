@@ -3,7 +3,6 @@ const catalog = require('../data/catalog.json');
 const fs = require('fs');
 const path = require('path');
 
-// Хранилище ID сообщений по userId
 const userCatalogMessages = new Map();
 
 function getCatalogKeyboard() {
@@ -24,25 +23,21 @@ async function handleCatalog(ctx) {
     const chatId = ctx.chat.id;
     const userId = ctx.from.id;
 
-    // Удаляем старые сообщения
     const oldMessages = userCatalogMessages.get(userId);
     if (oldMessages) {
         for (const msgId of oldMessages) {
             try {
                 await ctx.telegram.deleteMessage(chatId, msgId);
             } catch (err) {
-                // Сообщение уже удалено — не критично
+
             }
         }
     }
 
-    // Определяем ID пользовательского сообщения
     const userMessageId = ctx.message?.message_id || ctx.callbackQuery?.message?.message_id;
 
-    // Отправляем новый каталог
     const botMessage = await ctx.reply('Выберите категорию:', getCatalogKeyboard());
 
-    // Сохраняем оба ID: пользовательское и бота
     userCatalogMessages.set(userId, [userMessageId, botMessage.message_id].filter(Boolean));
 }
 
@@ -84,7 +79,6 @@ async function handleBackToCatalog(ctx) {
 
         const message = await ctx.reply('Выберите категорию:', getCatalogKeyboard());
 
-        // Обновляем сообщения: только новое от бота
         userCatalogMessages.set(ctx.from.id, [message.message_id]);
     } catch (error) {
         console.error('Ошибка при возврате к каталогу:', error);

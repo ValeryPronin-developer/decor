@@ -7,7 +7,6 @@ async function handlePresentation(ctx) {
 
     const existingData = presentationState.get(userId);
 
-    // Удалить предыдущее сообщение пользователя, если есть
     if (existingData?.userMessageId) {
         try {
             await ctx.telegram.deleteMessage(chatId, existingData.userMessageId);
@@ -16,9 +15,7 @@ async function handlePresentation(ctx) {
         }
     }
 
-    // Если у пользователя уже была отправлена презентация
     if (existingData?.firstBotMessageId) {
-        // Удаляем предыдущее пересланное сообщение, если оно отличалось от первого
         if (existingData.lastForwardedId && existingData.lastForwardedId !== existingData.firstBotMessageId) {
             try {
                 await ctx.telegram.deleteMessage(chatId, existingData.lastForwardedId);
@@ -27,11 +24,9 @@ async function handlePresentation(ctx) {
             }
         }
 
-        // Пересылаем первое сообщение с PDF
         try {
             const forwarded = await ctx.telegram.forwardMessage(chatId, chatId, existingData.firstBotMessageId);
 
-            // Обновляем состояние: новое пересланное сообщение + ID текущего пользовательского сообщения
             presentationState.set(userId, {
                 ...existingData,
                 lastForwardedId: forwarded.message_id,

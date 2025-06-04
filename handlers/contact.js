@@ -1,4 +1,4 @@
-const { getContactMessages, setContactMessages, clearContactMessages } = require('../state/contactState');
+const { getContactMessages, setContactMessages } = require('../state/contactState');
 
 async function handleContact(ctx) {
     const userId = ctx.from.id;
@@ -13,7 +13,22 @@ async function handleContact(ctx) {
     }
 
     const userMessageId = ctx.message?.message_id;
-    const botMessage = await ctx.reply('Свяжитесь с администратором: @jbssnva');
+
+    const botMessage = await ctx.reply(
+        'Нажмите на кнопку ниже, чтобы связаться с администратором:',
+        {
+            reply_markup: {
+                inline_keyboard: [
+                    [
+                        {
+                            text: 'Связаться',
+                            url: 'https://t.me/jbssnva?text=Здравствуйте!',
+                        },
+                    ],
+                ],
+            },
+        }
+    );
 
     const newMessageIds = [];
     if (userMessageId) newMessageIds.push(userMessageId);
